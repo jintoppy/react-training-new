@@ -3,34 +3,32 @@ import Users from './Users';
 import SelectedUser from './SelectedUser';
 import AddUser from './AddUser';
 import axios from 'axios';
+import UserStore from '../stores/UserStore';
+import {userFetched, addUser} from '../actions/UserActions';
 
 class Content extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            users: [
-                {
-                    login: 'User1',
-                    id: 10
-                }
-            ],
+            users: UserStore.getUsers(),
             selectedUser: {}
         };
+        UserStore.addChangeListener(this.onChange.bind(this));
+    }
+    onChange(){
+        let newUsers = UserStore.getUsers();
+        this.setState({
+            users: newUsers
+        });
     }
     componentDidMount(){
         let promise = axios.get('https://api.github.com/users');
         promise.then((response) => {
-            this.setState({
-                users: response.data
-            });
+            userFetched(response.data);
         });
     }
     addMyUser(newUserObj){
-        let users = this.state.users;
-        let newUsers = users.concat([newUserObj]);
-        this.setState({
-            users: newUsers
-        });
+        addUser(newUserObj);
     }
     setSelectedUser(user){
         this.setState({
