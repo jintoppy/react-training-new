@@ -14,9 +14,13 @@ class AddUser extends Component {
         
     }
     render(){
+        const style = {
+            fontSize: '14px',
+            color: 'blue'
+        };
         return <div>
             <div>
-                <label>Name</label>
+                <label style={style}>Name</label>
                 <input ref="login" />
             </div>
             <div>

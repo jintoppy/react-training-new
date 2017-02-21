@@ -17,7 +17,7 @@ class Header extends Component{
         });
     }
     render(){
-        return <div>
+        return <div className="header">
             This is the header
             <Link to="/">HOme</Link>
             Total User Count is {this.state.users.length}
